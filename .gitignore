@@ -1,0 +1,12 @@
+*.swp
+.DS_Store
+
+zed/.tmp*
+*.mdb
+zed/conversations/*
+zed/settings_backup.json
+/target/**
+
+**/target/**
+**/*.rs.bk
+**/Cargo.lock
