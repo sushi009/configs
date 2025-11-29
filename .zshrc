@@ -77,18 +77,55 @@ bindkey "^[[B" history-beginning-search-forward-end
 
 setopt prompt_subst
 
-if ! type git-prompt &>/dev/null; then
-  autoload -Uz add-zsh-hook vcs_info
-  zstyle ':vcs_info:*' enable git svn
-  zstyle ':vcs_info:*' check-for-changes true # slows down the prompt
-  zstyle ':vcs_info:*' unstagedstr '*'
-  zstyle ':vcs_info:*' stagedstr '+'
-  zstyle ':vcs_info:git:*' formats ':%b%u%c'
-  zstyle ':vcs_info:git:*' actionformats ' %b|%a%u%c'
-  add-zsh-hook precmd vcs_info
+autoload -Uz add-zsh-hook vcs_info
+zstyle ':vcs_info:*' enable git svn
+zstyle ':vcs_info:*' check-for-changes true # slows down the prompt
+zstyle ':vcs_info:*' unstagedstr '*'
+zstyle ':vcs_info:*' stagedstr '+'
+zstyle ':vcs_info:git:*' formats ' (%b%u%c%m)'
+zstyle ':vcs_info:git:*' actionformats ' (%b|%a%u%c%m)'
 
-  git-prompt() { }
-fi
+# Add git ahead/behind and untracked files information
+zstyle ':vcs_info:git*+set-message:*' hooks git-st
++vi-git-st() {
+  local ahead behind
+  local -a gitstatus upstatus
+  local has_status=0
+
+  # Check for untracked files first (escape % as %%)
+  if [[ $(git rev-parse --is-inside-work-tree 2>/dev/null) == 'true' ]] && \
+     git status --porcelain | grep -q '^?? '; then
+    gitstatus+=('%%')
+  fi
+
+  # Get ahead/behind counts
+  ahead=$(git rev-list --count @{upstream}..HEAD 2>/dev/null)
+  behind=$(git rev-list --count HEAD..@{upstream} 2>/dev/null)
+
+  # Build the ahead/behind status string
+  (( $ahead )) && upstatus+=("↑${ahead}")
+  (( $behind )) && upstatus+=("↓${behind}")
+
+  # Add space before ahead/behind if there are other status indicators (untracked, unstaged, or staged)
+  if [[ -n $upstatus ]]; then
+    if [[ -n $gitstatus ]] || [[ -n ${hook_com[unstaged]} ]] || [[ -n ${hook_com[staged]} ]]; then
+      gitstatus+=(" ${(j::)upstatus}")
+    else
+      gitstatus+=("${(j::)upstatus}")
+    fi
+  fi
+
+  # Check if any status indicators will be shown
+  [[ -n ${hook_com[unstaged]} ]] || [[ -n ${hook_com[staged]} ]] || [[ -n $gitstatus ]] && has_status=1
+
+  # Prepend space to branch if there are any status indicators
+  (( has_status )) && hook_com[branch]+=" "
+
+  # Set the misc (%m) format
+  [[ -n $gitstatus ]] && hook_com[misc]="${(j::)gitstatus}"
+}
+
+add-zsh-hook precmd vcs_info
 
 export VIRTUAL_ENV_DISABLE_PROMPT=yes
 typeset -a precmd_functions
@@ -137,13 +174,6 @@ install_python() {
   pyenv global "$version"
 }
 
-tssh() {
-  if [ $# -eq 0 ]; then
-    echo "Usage: tssh [ssh_options] user@host"; return 1 # iterm tmux integration
-  fi
-  ssh "$@" -t 'tmux -CC new -A -s tmssh bash -l'
-}
-
 man() {
   LESS_TERMCAP_md=$'\e[01;31m' \
   LESS_TERMCAP_me=$'\e[0m' \
@@ -173,4 +203,4 @@ fi
 
 export GPG_TTY="${TTY:-"$(tty)"}"
 
-PROMPT='%F{magenta}${venv_info_0}%f%(!.%F{magenta}%n%f.%F{green}%n%f)%F{8}@%f%F{green}%m%f%F{8}:%f%B%F{blue}%~%f%b%F{yellow}${vcs_info_msg_0_}%f%F{yellow}$(git-prompt)%f %(?.%F{white}-%f.%F{red}%? %f)%F{cyan}$ %f'
+PROMPT='%F{magenta}${venv_info_0}%f%(!.%F{magenta}%n%f.%F{green}%n%f)%F{8}@%f%F{green}%m%f%F{8}:%f%F{blue}%~%f%F{yellow}${vcs_info_msg_0_}%f %(?.%F{white}-%f.%F{red}%? %f)%F{cyan}$ %f'

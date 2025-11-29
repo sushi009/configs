@@ -1,90 +1,89 @@
 {
   "vim_mode": true,
   "gutter": {
-    "folds": false
+    "folds": false,
   },
   "project_panel": {
-    "dock": "right"
+    "dock": "right",
   },
   "outline_panel": {
-    "dock": "right"
+    "dock": "right",
   },
   "auto_indent_on_paste": false,
   "tabs": {
     "git_status": true,
     "file_icons": true,
-    "show_diagnostics": "all"
+    "show_diagnostics": "all",
   },
-  "buffer_font_size": 13.2,
+  "buffer_font_size": 13.5,
   "buffer_font_family": "CommitMono",
+  "agent_buffer_font_size": 13.5,
   "show_signature_help_after_edits": true, // "ctrl-s" for manual
   "terminal": {
+    "line_height": { "custom": 1.5 },
     "default_height": 520,
-    "line_height": {
-      "custom": 1.4
-    },
     "detect_venv": {
       "on": {
-        "directories": [".venv", "venv", ".env", "env"]
-      }
-    }
+        "directories": [".venv", "venv", ".env", "env"],
+      },
+    },
   },
   "preferred_line_length": 100,
   "theme": {
     "mode": "system",
     "light": "One Light",
-    "dark": "Catppuccin Macchiato - No Italics"
+    "dark": "Catppuccin Macchiato - No Italics",
   },
   "icon_theme": "Catppuccin Macchiato",
   "indent_guides": {
-    "coloring": "indent_aware"
+    "coloring": "indent_aware",
   },
   "title_bar": {
-    "show_branch_icon": true
+    "show_branch_icon": true,
   },
   "use_smartcase_search": true,
   "soft_wrap": "editor_width",
   "vim": {
-    "use_smartcase_find": true
+    "use_smartcase_find": true,
   },
   "file_types": {
     "XML": ["drawio", "svg"],
     "Dockerfile": ["Dockerfile*[!dockerignore]"],
     "Git Ignore": ["dockerignore"],
-    "C++": ["mm", "m"] // workaround for missing obj-c extension
+    "C++": ["mm", "m"], // workaround for missing obj-c extension
   },
   "diagnostics": {
     "inline": {
-      "enabled": true
-    }
+      "enabled": true,
+    },
   },
   "languages": {
     "Assembly": {
-      "enable_language_server": false
+      "enable_language_server": false,
     },
     "C": {
-      "format_on_save": "on"
+      "format_on_save": "on",
     },
     "C++": {
-      "format_on_save": "on"
+      "format_on_save": "on",
     },
     "Dockerfile": {
-      "format_on_save": "off"
+      "format_on_save": "off",
     },
     "TypeScript": {
       "code_actions_on_format": {
-        "source.sortImports": true
-      }
+        "source.sortImports": true,
+      },
     },
     "JavaScript": {
       "code_actions_on_format": {
-        "source.sortImports": true
-      }
+        "source.sortImports": true,
+      },
     },
     "Svelte": {
       "code_actions_on_format": {
-        "source.sortImports": true
-      }
+        "source.sortImports": true,
+      },
     },
     "Python": {
       "language_servers": ["basedpyright", "ruff"],
@@ -92,14 +91,9 @@
       "formatter": [
         { "code_action": "source.fixAll.ruff" },
         { "code_action": "source.organizeImports.ruff" },
-        { "language_server": { "name": "ruff" } }
-      ]
+        { "language_server": { "name": "ruff" } },
+      ],
     },
-    "Rust": {
-      "inlay_hints": {
-        "enabled": true
-      }
-    }
   },
   "lsp": {
     "ruff": {
@@ -109,62 +103,59 @@
           "configuration": {
             "lint": {
               "unfixable": ["F401"],
-              "ignore": ["E501"]
-            }
-          }
-        }
-      }
+              "ignore": ["E501"],
+            },
+          },
+        },
+      },
     },
     "basedpyright": {
       "settings": {
         "basedpyright.analysis": {
-          "typeCheckingMode": "off" // turn off annoying typechecking
-        }
-      }
+          "typeCheckingMode": "off", // turn off annoying typechecking
+        },
+      },
     },
     "rust-analyzer": {
       "initialization_options": {
         "imports": {
           "granularity": {
-            "group": "module"
-          }
+            "group": "module",
+          },
         },
         "cargo": {
           "features": "all",
           "allTargets": true,
           "buildScripts": {
-            "enable": true
-          }
+            "enable": true,
+          },
         },
         "procMacro": {
-          "enable": true
+          "enable": true,
         },
         "check": {
           "command": "clippy",
           "allTargets": true,
-          "features": "all"
-        }
-      }
-    }
+          "features": "all",
+        },
+      },
+    },
   },
   "show_edit_predictions": false,
   "agent": {
     "default_profile": "ask",
     "inline_assistant_model": {
       "provider": "anthropic",
-      "model": "claude-sonnet-4-5-latest"
+      "model": "claude-sonnet-4-5-latest",
     },
     "always_allow_tool_actions": true,
     "default_model": {
       "provider": "anthropic",
-      "model": "claude-sonnet-4-5-thinking-latest"
-    }
+      "model": "claude-sonnet-4-5-thinking-latest",
+    },
   },
   "auto_install_extensions": {
     "catppuccin": true,
-    "env": true,
-    "git-firefly": true,
-    "xml": true,
-    "catppuccin-icons": true
-  }
+    "catppuccin-icons": true,
+  },
 }
