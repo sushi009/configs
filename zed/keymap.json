@@ -8,8 +8,8 @@
       "g r": "editor::FindAllReferences",
       "g i": "editor::GoToImplementation",
       "space r": "editor::Rename",
-      "space a": "editor::ToggleCodeActions"
-    }
+      "space a": "editor::ToggleCodeActions",
+    },
   },
   {
     "context": "Editor",
@@ -17,10 +17,10 @@
       "ctrl-j": ["editor::GoToDiagnostic", { "severity": { "min": "warning", "max": "error" } }],
       "ctrl-k": [
         "editor::GoToPreviousDiagnostic",
-        { "severity": { "min": "warning", "max": "error" } }
+        { "severity": { "min": "warning", "max": "error" } },
       ],
-      "ctrl-`": "terminal_panel::ToggleFocus"
-    }
+      "ctrl-`": "terminal_panel::ToggleFocus",
+    },
   },
   {
     "context": "Terminal",
@@ -28,7 +28,7 @@
       "ctrl-`": "workspace::ToggleBottomDock",
       "cmd-t": "workspace::NewTerminal",
       "ctrl-tab": "pane::ActivateNextItem",
-      "ctrl-shift-tab": "pane::ActivatePreviousItem"
-    }
-  }
+      "ctrl-shift-tab": "pane::ActivatePreviousItem",
+    },
+  },
 ]

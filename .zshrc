@@ -85,6 +85,8 @@ zstyle ':vcs_info:*' stagedstr '+'
 zstyle ':vcs_info:git:*' formats ' (%b%u%c%m)'
 zstyle ':vcs_info:git:*' actionformats ' (%b|%a%u%c%m)'
 
+ulimit -n 4096 # open files limit:
+
 # Add git ahead/behind and untracked files information
 zstyle ':vcs_info:git*+set-message:*' hooks git-st
 +vi-git-st() {
@@ -159,6 +161,7 @@ alias pip-upgrade='pip3 install -U $(pip3 list --format=freeze | awk '\''{split(
 upgrade_all() {
     brew upgrade --greedy
     type node &>/dev/null || brew link --overwrite node --dry-run
+    brew cleanup --prune-prefix
     brew cleanup --prune=0 -s
     rustup update
     pip-upgrade
@@ -203,4 +206,4 @@ fi
 
 export GPG_TTY="${TTY:-"$(tty)"}"
 
-PROMPT='%F{magenta}${venv_info_0}%f%(!.%F{magenta}%n%f.%F{green}%n%f)%F{8}@%f%F{green}%m%f%F{8}:%f%F{blue}%~%f%F{yellow}${vcs_info_msg_0_}%f %(?.%F{white}-%f.%F{red}%? %f)%F{cyan}$ %f'
+PROMPT='%F{magenta}${venv_info_0}%f%(!.%F{magenta}%n%f.%F{green}%n%f)%F{8}@%f%F{green}%m%f%F{8}:%f%F{blue}%~%f%F{yellow}${vcs_info_msg_0_}%f %(?.%F{white}-%f.%F{red}%? %f)%F{cyan}❯ %f'
