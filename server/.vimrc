@@ -24,9 +24,30 @@ hi LineNr ctermfg=8
 hi Comment ctermfg=8
 hi StatusLine ctermfg=235 ctermbg=15
 hi StatusLineNC ctermfg=235 ctermbg=8
-if has("clipboard")
-  set clipboard+=unnamed
-  if has("unnamedplus")
-    set clipboard+=unnamedplus
-  endif
+
+" ===== Clipboard Configuration =====
+if !empty($SSH_TTY)
+    " Remote: Use OSC52 for clipboard
+    function! Osc52Yank()
+        let buffer = @"
+        let buffer = substitute(buffer, '\n$', '', '')
+        let b64 = system('echo -n ' . shellescape(buffer) . ' | base64 | tr -d "\n"')
+        if $TMUX != ''
+            let osc52 = "\033Ptmux;\033\033]52;c;" . b64 . "\007\033\\"
+        else
+            let osc52 = "\033]52;c;" . b64 . "\007"
+        endif
+        call writefile([osc52], '/dev/tty', 'b')
+    endfunction
+
+    augroup Osc52Yank
+        autocmd!
+        autocmd TextYankPost * if v:event.operator ==# 'y' | call Osc52Yank() | endif
+    augroup END
+else
+    " Local: Use system clipboard
+    set clipboard+=unnamed
+    if has("unnamedplus")
+        set clipboard+=unnamedplus
+    endif
 endif
