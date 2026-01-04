@@ -22,11 +22,7 @@
   "terminal": {
     "line_height": { "custom": 1.5 },
     "default_height": 520,
-    "detect_venv": {
-      "on": {
-        "directories": [".venv", "venv", ".env", "env"],
-      },
-    },
+    "detect_venv": "off",
   },
   "preferred_line_length": 100,
   "theme": {
@@ -143,7 +139,7 @@
   },
   "show_edit_predictions": false,
   "agent": {
-    "default_profile": "ask",
+    "default_profile": "write",
     "inline_assistant_model": {
       "provider": "anthropic",
       "model": "claude-sonnet-4-5-latest",

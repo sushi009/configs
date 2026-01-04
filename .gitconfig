@@ -1,29 +1,29 @@
 [core]
-    excludesfile = ~/.gitignore
+	excludesfile = ~/.gitignore
 [alias]
-    l = log --graph --pretty=format:'%Cred%h %Cgreen%ad%C(yellow)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%aN>%Creset' --abbrev-commit --date=format:%F --author-date-order
-    ll = !git l --all
+	l = log --graph --pretty=format:'%Cred%h %Cgreen%ad%C(yellow)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%aN>%Creset' --abbrev-commit --date=format:%F --author-date-order
+	ll = !git l --all
 [pull]
-    ff = only
+	ff = only
 [color "grep"]
-    filename = magenta
-    linenumber = green
+	filename = magenta
+	linenumber = green
 [grep]
-    lineNumber = true
+	lineNumber = true
 [init]
-    defaultBranch = master
+	defaultBranch = master
 [credential]
-    helper = osxkeychain
+	helper = osxkeychain
 [merge]
 	conflictStyle = zdiff3
 [diff]
-    submodule = log
-    algorithm = histogram
-    indentHeuristic = true
+	submodule = log
+	algorithm = histogram
+	indentHeuristic = true
 [fetch]
-    prune = true
+	prune = true
 [branch]
-    sort = -committerdate
+	sort = -committerdate
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
