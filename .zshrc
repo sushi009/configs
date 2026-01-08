@@ -1,16 +1,7 @@
-if [ -f /etc/zshrc ]; then
-    source /etc/zshrc
-elif [ -f /etc/zsh.zshrc ]; then
-    source /etc/zsh.zshrc
-fi
+for f in /etc/zshrc /etc/zsh.zshrc; do [[ -f $f ]] && source $f && break; done
 
-if [ -d "/opt/homebrew" ]; then
-    HOMEBREW_PREFIX="/opt/homebrew"
-elif [ -d "/home/linuxbrew/.linuxbrew" ]; then
-    HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew"
-else
-    HOMEBREW_PREFIX=""
-fi
+HOMEBREW_PREFIX=""
+for dir in /opt/homebrew /home/linuxbrew/.linuxbrew; do [[ -d $dir ]] && HOMEBREW_PREFIX=$dir && break; done
 
 export LESS="-F -X -R"
 export RUST_BACKTRACE=1
@@ -18,9 +9,7 @@ export CLICOLOR=1
 export LSCOLORS=ExGxBxDxCxdxdxhxhxexex
 export LS_COLORS='di=1;34:ln=1;36:so=1;31:pi=1;33:ex=1;32:bd=33:cd=33:su=37:sg=37:tw=34:ow=34'
 if [ -n "$HOMEBREW_PREFIX" ]; then
-    export PATH="$HOMEBREW_PREFIX/opt/postgresql@17/bin:$PATH"
-    export PATH="$HOMEBREW_PREFIX/opt/curl/bin:$PATH"
-    export PATH="$HOMEBREW_PREFIX/bin:$PATH"
+    export PATH="$HOMEBREW_PREFIX/opt/postgresql@18/bin:$HOMEBREW_PREFIX/opt/curl/bin:$HOMEBREW_PREFIX/bin:$PATH"
 fi
 export PATH="$HOME/bin:$HOME/.local/bin:$HOME/.cargo/bin:$HOME/.pyenv/shims:$PATH"
 export WORDCHARS='*?_-.~=&;!#$%^(){}<>'
@@ -41,9 +30,7 @@ zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]-_}={[:upper:][:lower:
 if type brew &>/dev/null; then
     fpath+=("$HOMEBREW_PREFIX/share/zsh/site-functions")
 fi
-fpath+=("$HOME/.local/share/zsh/site-functions")
-fpath+=("$HOME/.zshrc.d/completions")
-fpath+=("$HOME/.zfunc")
+fpath+=("$HOME/.local/share/zsh/site-functions" "$HOME/.zshrc.d/completions" "$HOME/.zfunc")
 export fpath
 
 setopt EXTENDED_HISTORY
@@ -127,14 +114,7 @@ zstyle ':vcs_info:git*+set-message:*' hooks git-st
 export VIRTUAL_ENV_DISABLE_PROMPT=yes
 add-zsh-hook precmd vcs_info
 typeset -a precmd_functions
-venv_info_0=""
-virtualenv_info() {
-    if [ -n "$VIRTUAL_ENV" ]; then
-        venv_info_0='('`basename $VIRTUAL_ENV`') '
-    else
-        venv_info_0=""
-    fi
-}
+virtualenv_info() { venv_info_0=${VIRTUAL_ENV:+"(${VIRTUAL_ENV:t}) "}; }
 precmd_functions+=(virtualenv_info)
 auto_activate_venv() {
     # Deactivate if we leave a venv directory
@@ -153,11 +133,9 @@ add-zsh-hook chpwd auto_activate_venv
 auto_activate_venv # Also run on shell startup for the initial directory
 
 install_python() {
-    local version="${1:-$(pyenv latest -k 3)}"
-    env PYTHON_CONFIGURE_OPTS="--enable-shared --enable-optimizations --with-lto" \
-        PYTHON_CFLAGS='-march=native -mtune=native' \
-        pyenv install "$version" -vv
-    pyenv global "$version"
+    local VER="$(pyenv latest -k 3)"
+    PYTHON_CONFIGURE_OPTS="--enable-shared --enable-optimizations --with-lto" PYTHON_CFLAGS='-march=native -mtune=native' pyenv install "$VER" -vv
+    pyenv global "$VER"
 }
 
 man() {
@@ -170,22 +148,14 @@ man() {
     command man "$@"
 }
 
-clear_and_reset() {
-    clear; printf '\e[3J'; zle reset-prompt;
-}
+clear_and_reset() { clear; printf '\e[3J'; zle reset-prompt; }
 zle -N clear_and_reset
 bindkey '^L' clear_and_reset
 
-if [ -f ~/.custom.sh ]; then
-    source ~/.custom.sh
-fi
+source ~/.custom.sh &>/dev/null || true
 
-if type zed-preview &>/dev/null; then
-    alias zed=zed-preview
-    if [ "$TERM_PROGRAM" = zed ]; then
-        export EDITOR="zed-preview --wait"
-    fi
-fi
+alias zed=zed-preview
+[ "$TERM_PROGRAM" = zed ] && export EDITOR="zed-preview --wait" || true
 
 export GPG_TTY="${TTY:-"$(tty)"}"
 
@@ -202,6 +172,7 @@ alias egrep='egrep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias ..='cd ..'
 alias ...='cd ../..'
+alias -- -='cd -'
 alias gr='cd $(git rev-parse --show-toplevel)'
 alias upall='brew upgrade --greedy;brew cleanup --prune-prefix;brew cleanup --prune=0 -s;rustup update;cargo install-update --all'
 

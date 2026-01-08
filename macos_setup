@@ -7,9 +7,9 @@ fi
 
 DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
 
-mkdir -p ~/.ssh ~/.local/bin ~/.config ~/.config/ghostty
+mkdir -p ~/.ssh ~/.local/bin ~/.config ~/.config/ghostty ~/.cargo
 cp -R "$DIR/zed" "$HOME/.config"
-for file in .zshrc .gitconfig .clang-format .clangd .vimrc .tmux.conf .config/ghostty/config; do
+for file in .zshrc .gitconfig .clang-format .clangd .vimrc .tmux.conf .config/ghostty/config .cargo/config.toml; do
     cp -f "$DIR/$file" ~/$file
 done
 git config --global user.name "Sushant Kumar"
