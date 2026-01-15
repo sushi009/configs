@@ -6,12 +6,18 @@ if ! [ -d "$(xcode-select -p)" ]; then
 fi
 
 DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
+FILES=(.zshrc .gitconfig .clang-format .clangd .vimrc .tmux.conf .cargo/config.toml)
+mkdir -p ~/.ssh ~/.local/bin ~/.config ~/.cargo
 
-mkdir -p ~/.ssh ~/.local/bin ~/.config  ~/.cargo
-for file in .zshrc .gitconfig .clang-format .clangd .vimrc .tmux.conf .cargo/config.toml; do
-    cp -f "$DIR/$file" ~/$file
-done
-cp -R ~/configs/.config/ ~/.config/
+if [ "$1" = "--save" ]; then
+    for file in "${FILES[@]}"; do cp -f ~/"$file" "$DIR/$file"; done
+    cp -R ~/.config/ghostty "$DIR/.config"
+    cp -R ~/.config/zed "$DIR/.config"
+    exit 0
+fi
+
+for file in "${FILES[@]}"; do cp -f "$DIR/$file" ~/"$file"; done
+cp -R "$DIR/.config/" ~/.config/
 
 [ -f ~/.custom.sh ] || cat >~/.custom.sh <<'EOL'
 export AWS_DEFAULT_REGION="ap-south-1"
@@ -63,7 +69,7 @@ else
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 for formula in tree pyenv htop pkg-config cmake curl wget just cmake protobuf llvm git-lfs tmux \
-               awscli ffmpeg-full font-commit-mono uv oven-sh/bun/bun hyperfine \
+               awscli ffmpeg-full uv oven-sh/bun/bun hyperfine \
                zed@preview firefox@developer-edition alt-tab rectangle ghostty@tip; do
     brew install $formula
 done

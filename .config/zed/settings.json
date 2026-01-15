@@ -143,7 +143,7 @@
     "default_profile": "write",
     "inline_assistant_model": {
       "provider": "anthropic",
-      "model": "claude-sonnet-4-5-latest",
+      "model": "claude-opus-4-5-thinking-latest",
     },
     "always_allow_tool_actions": true,
     "default_model": {
@@ -154,5 +154,18 @@
   "auto_install_extensions": {
     "catppuccin": true,
     "catppuccin-icons": true,
+    "html": true,
+    "xml": true,
+    "ini": true,
+    "env": true,
+    "python-requirements": true,
+    "assembly": true,
+    "sql": true,
+    "git-firefly": true,
+    "toml": true,
+    "basher": true,
+    "make": true,
+    "log": true,
+    "rainbow-csv": true,
   },
 }

@@ -16,6 +16,8 @@ export WORDCHARS='*?_-.~=&;!#$%^(){}<>'
 export LESSHISTFILE=/dev/null
 export EDITOR=vim
 export BAT_THEME="Catppuccin Macchiato"
+export MAKEOPTS="-j12"
+export SHELLCHECK_OPTS="-e SC2016 -e SC1090 -e SC2001 -e SC2236"
 HISTFILE="$HOME/.zsh_history"
 HISTSIZE=50000
 SAVEHIST=10000
@@ -49,7 +51,16 @@ unsetopt NOMATCH
 
 stty start undef stop undef
 
-autoload -Uz compinit && compinit
+# cache .zcompdump for 24 hours otherwise it slows down the shell startup
+autoload -Uz compinit
+_comp_dump="${ZDOTDIR:-$HOME}/.zcompdump"
+if [[ -n $(find "$_comp_dump" -mtime -1 2>/dev/null) ]]; then
+  compinit -C -d "$_comp_dump"
+else
+  compinit -d "$_comp_dump"
+fi
+unset _comp_dump
+
 autoload -Uz colors && colors
 
 bindkey -v
@@ -172,8 +183,10 @@ alias egrep='egrep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias ..='cd ..'
 alias ...='cd ../..'
+alias ....='cd ../../..'
 alias -- -='cd -'
 alias d='cd $(git rev-parse --show-toplevel)'
 alias upall='brew upgrade --greedy;brew cleanup --prune-prefix;brew cleanup --prune=0 -s;rustup update;cargo install-update --all'
+alias tmux='SHELL=$(command -v ${0#-}) tmux' # launch tmux with the current shell
 
 PROMPT='%F{magenta}${venv_info_0}%f%(!.%F{magenta}%n%f.%F{green}%n%f)%F{8}@%f%F{green}%m%f%F{8}:%f%F{blue}%~%f%F{yellow}${vcs_info_msg_0_}%f %(?.%F{white}-%f.%F{red}%? %f)%F{cyan}❯ %f'

@@ -9,3 +9,4 @@ confirm-close-surface = always
 mouse-hide-while-typing = true
 macos-auto-secure-input = true
 macos-option-as-alt = true
+auto-update = off
