@@ -7,11 +7,11 @@ fi
 
 DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
 
-mkdir -p ~/.ssh ~/.local/bin ~/.config ~/.config/ghostty ~/.cargo
-for file in .zshrc .gitconfig .clang-format .clangd .vimrc .tmux.conf .config/ghostty/config .cargo/config.toml; do
+mkdir -p ~/.ssh ~/.local/bin ~/.config  ~/.cargo
+for file in .zshrc .gitconfig .clang-format .clangd .vimrc .tmux.conf .cargo/config.toml; do
     cp -f "$DIR/$file" ~/$file
 done
-cp -R "$DIR/zed" "$HOME/.config"
+cp -R ~/configs/.config/ ~/.config/
 
 [ -f ~/.custom.sh ] || cat >~/.custom.sh <<'EOL'
 export AWS_DEFAULT_REGION="ap-south-1"
