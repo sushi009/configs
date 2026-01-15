@@ -9,6 +9,8 @@
       "g i": "editor::GoToImplementation",
       "space r": "editor::Rename",
       "space a": "editor::ToggleCodeActions",
+      "*": "vim::SearchUnderCursor",
+      "#": "vim::SearchUnderCursorPrevious",
     },
   },
   {

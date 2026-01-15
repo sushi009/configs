@@ -139,6 +139,7 @@
   },
   "show_edit_predictions": false,
   "agent": {
+    "show_turn_stats": true,
     "default_profile": "write",
     "inline_assistant_model": {
       "provider": "anthropic",

@@ -8,18 +8,16 @@ fi
 DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
 
 mkdir -p ~/.ssh ~/.local/bin ~/.config ~/.config/ghostty ~/.cargo
-cp -R "$DIR/zed" "$HOME/.config"
 for file in .zshrc .gitconfig .clang-format .clangd .vimrc .tmux.conf .config/ghostty/config .cargo/config.toml; do
     cp -f "$DIR/$file" ~/$file
 done
-git config --global user.name "Sushant Kumar"
-git config --global user.email "sushant.mithila@gmail.com"
+cp -R "$DIR/zed" "$HOME/.config"
 
 [ -f ~/.custom.sh ] || cat >~/.custom.sh <<'EOL'
-# export AWS_DEFAULT_REGION="ap-south-1"
-# export AWS_ACCESS_KEY_ID="------" # terraform access for aws user: terraform-admin
-# export AWS_SECRET_ACCESS_KEY="------"
-# export TF_VAR_github_api_token="------" # terraform git clone token
+export AWS_DEFAULT_REGION="ap-south-1"
+export AWS_ACCESS_KEY_ID="------" #
+export AWS_SECRET_ACCESS_KEY="------"
+export TF_VAR_github_api_token="------"
 EOL
 
 [ -f ~/.ssh/config ] || cat >~/.ssh/config <<'EOL'
@@ -64,11 +62,9 @@ if type brew &>/dev/null; then
 else
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
-for cask in zed@preview firefox@developer-edition alt-tab rectangle; do
-    brew install --cask $cask
-done
 for formula in tree pyenv htop pkg-config cmake curl wget just cmake protobuf llvm git-lfs tmux \
-               awscli ffmpeg font-commit-mono ghostty@tip uv oven-sh/bun/bun; do
+               awscli ffmpeg-full font-commit-mono uv oven-sh/bun/bun hyperfine \
+               zed@preview firefox@developer-edition alt-tab rectangle ghostty@tip; do
     brew install $formula
 done
 brew cleanup --prune=0 -s
@@ -92,7 +88,8 @@ if ! type rustup &>/dev/null; then
 fi
 rustup update
 rustup toolchain install stable nightly
-cargo install cargo-update cargo-edit
+rustup default nightly
+cargo install cargo-binutils cargo-machete cargo-nextest cargo-show-asm cargo-update cargo-watch
 
 cd ~ && rm -rf .zcompcache .zcompdump*
 echo "=== Done! Restart your machine ==="
