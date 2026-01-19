@@ -29,9 +29,7 @@ zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' menu select=1
 zstyle ':completion:*' use-compctl true
 zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]-_}={[:upper:][:lower:]_-}' 'r:|=*' 'l:|=* r:|=*' # case insensitive (all), partial-word, substring completion
-if type brew &>/dev/null; then
-    fpath+=("$HOMEBREW_PREFIX/share/zsh/site-functions")
-fi
+[[ -n "$HOMEBREW_PREFIX" ]] && fpath+=("$HOMEBREW_PREFIX/share/zsh/site-functions")
 fpath+=("$HOME/.local/share/zsh/site-functions" "$HOME/.zshrc.d/completions" "$HOME/.zfunc")
 export fpath
 
@@ -85,41 +83,16 @@ zstyle ':vcs_info:git:*' actionformats ' (%b|%a%u%c%m)'
 # Add git ahead/behind and untracked files information
 zstyle ':vcs_info:git*+set-message:*' hooks git-st
 +vi-git-st() {
-    local ahead behind
-    local -a gitstatus upstatus
-    local has_status=0
+    local -a gitstatus
+    local ahead=$(git rev-list --count @{upstream}..HEAD 2>/dev/null)
+    local behind=$(git rev-list --count HEAD..@{upstream} 2>/dev/null)
+    local upstatus; (( ahead )) && upstatus+="↑$ahead"; (( behind )) && upstatus+="↓$behind"
 
-    # Check for untracked files first (escape % as %%)
-    if [[ $(git rev-parse --is-inside-work-tree 2>/dev/null) == 'true' ]] && \
-        git status --porcelain | grep -q '^?? '; then
-        gitstatus+=('%%')
-    fi
+    git status --porcelain 2>/dev/null | grep -q '^?? ' && gitstatus+=('%%')
+    [[ -n $upstatus ]] && gitstatus+=("${${gitstatus[1]:-${hook_com[unstaged]}${hook_com[staged]}}:+ }$upstatus")
 
-    # Get ahead/behind counts
-    ahead=$(git rev-list --count @{upstream}..HEAD 2>/dev/null)
-    behind=$(git rev-list --count HEAD..@{upstream} 2>/dev/null)
-
-    # Build the ahead/behind status string
-    (( $ahead )) && upstatus+=("↑${ahead}")
-    (( $behind )) && upstatus+=("↓${behind}")
-
-    # Add space before ahead/behind if there are other status indicators (untracked, unstaged, or staged)
-    if [[ -n $upstatus ]]; then
-        if [[ -n $gitstatus ]] || [[ -n ${hook_com[unstaged]} ]] || [[ -n ${hook_com[staged]} ]]; then
-            gitstatus+=(" ${(j::)upstatus}")
-        else
-            gitstatus+=("${(j::)upstatus}")
-        fi
-    fi
-
-    # Check if any status indicators will be shown
-    [[ -n ${hook_com[unstaged]} ]] || [[ -n ${hook_com[staged]} ]] || [[ -n $gitstatus ]] && has_status=1
-
-    # Prepend space to branch if there are any status indicators
-    (( has_status )) && hook_com[branch]+=" "
-
-    # Set the misc (%m) format
-    [[ -n $gitstatus ]] && hook_com[misc]="${(j::)gitstatus}"
+    [[ -n ${hook_com[unstaged]}${hook_com[staged]}${gitstatus[*]} ]] && hook_com[branch]+=" "
+    (( ${#gitstatus} )) && hook_com[misc]="${(j::)gitstatus}"
 }
 
 export VIRTUAL_ENV_DISABLE_PROMPT=yes
@@ -128,17 +101,8 @@ typeset -a precmd_functions
 virtualenv_info() { venv_info_0=${VIRTUAL_ENV:+"(${VIRTUAL_ENV:t}) "}; }
 precmd_functions+=(virtualenv_info)
 auto_activate_venv() {
-    # Deactivate if we leave a venv directory
-    if [[ -n "$VIRTUAL_ENV" ]]; then
-        local parent_dir="$(dirname "$VIRTUAL_ENV")"
-        if [[ "$PWD" != "$parent_dir"* ]]; then
-            deactivate
-        fi
-    fi
-    # Activate if .venv exists in current directory
-    if [[ -z "$VIRTUAL_ENV" && -d ".venv" && -f ".venv/bin/activate" ]]; then
-        source .venv/bin/activate
-    fi
+    [[ -n $VIRTUAL_ENV && $PWD != ${VIRTUAL_ENV:h}* ]] && deactivate
+    [[ -z $VIRTUAL_ENV && -f .venv/bin/activate ]] && source .venv/bin/activate
 }
 add-zsh-hook chpwd auto_activate_venv
 auto_activate_venv # Also run on shell startup for the initial directory

@@ -63,11 +63,8 @@ sudo spctl developer-mode enable-terminal # run binary faster: https://nexte.st/
 
 export PATH="$HOME/.cargo/bin:$HOME/.pyenv/shims:$HOME/.local/bin:/opt/homebrew/bin:/home/linuxbrew/.linuxbrew/bin:$PATH"
 
-if type brew &>/dev/null; then
-    brew upgrade --greedy
-else
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-fi
+type brew &>/dev/null || /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+brew upgrade --greedy
 for formula in tree pyenv htop pkg-config cmake curl wget just cmake protobuf llvm git-lfs tmux \
                awscli ffmpeg-full uv oven-sh/bun/bun hyperfine \
                zed@preview firefox@developer-edition alt-tab rectangle ghostty@tip; do
@@ -79,7 +76,7 @@ git lfs install
 
 for tool in clangd clang-format clang-tidy; do
     if [ -f /opt/homebrew/opt/llvm/bin/$tool ]; then
-        rm ~/.local/bin/$tool 2&>/dev/null || true
+        rm ~/.local/bin/$tool 2&>/dev/null
         ln -sfF /opt/homebrew/opt/llvm/bin/$tool ~/.local/bin/$tool
     fi
 done
@@ -87,15 +84,11 @@ done
 VER="$(pyenv latest -k 3)"
 PYTHON_CONFIGURE_OPTS="--enable-shared --enable-optimizations --with-lto" PYTHON_CFLAGS='-march=native -mtune=native' pyenv install "$VER" -vv
 pyenv global "$VER"
-pip install --upgrade pip
 
-if ! type rustup &>/dev/null; then
-    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-fi
+type rustup &>/dev/null || curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 rustup update
 rustup toolchain install stable nightly
 rustup default nightly
 cargo install cargo-binutils cargo-machete cargo-nextest cargo-show-asm cargo-update cargo-watch
 
 cd ~ && rm -rf .zcompcache .zcompdump*
-echo "=== Done! Restart your machine ==="
