@@ -17,7 +17,6 @@ export LESSHISTFILE=/dev/null
 export EDITOR=vim
 export BAT_THEME="Catppuccin Macchiato"
 export MAKEOPTS="-j12"
-export SHELLCHECK_OPTS="-e SC2016 -e SC1090 -e SC2001 -e SC2236"
 HISTFILE="$HOME/.zsh_history"
 HISTSIZE=50000
 SAVEHIST=10000
@@ -27,7 +26,6 @@ ulimit -n 4096 # open files limit:
 zstyle ':completion:*' group-name ''
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' menu select=1
-zstyle ':completion:*' use-compctl true
 zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]-_}={[:upper:][:lower:]_-}' 'r:|=*' 'l:|=* r:|=*' # case insensitive (all), partial-word, substring completion
 [[ -n "$HOMEBREW_PREFIX" ]] && fpath+=("$HOMEBREW_PREFIX/share/zsh/site-functions")
 fpath+=("$HOME/.local/share/zsh/site-functions" "$HOME/.zshrc.d/completions" "$HOME/.zfunc")
@@ -35,7 +33,6 @@ export fpath
 
 setopt EXTENDED_HISTORY
 setopt HIST_EXPIRE_DUPS_FIRST
-setopt HIST_IGNORE_DUPS
 setopt HIST_IGNORE_SPACE
 setopt HIST_VERIFY
 setopt INC_APPEND_HISTORY
@@ -43,6 +40,9 @@ setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_REDUCE_BLANKS
 setopt HIST_SAVE_NO_DUPS
 setopt AUTO_PUSHD
+setopt PUSHD_IGNORE_DUPS
+setopt PUSHD_SILENT
+setopt INTERACTIVE_COMMENTS
 setopt SHARE_HISTORY
 unsetopt BEEP
 unsetopt NOMATCH
@@ -58,8 +58,6 @@ else
   compinit -d "$_comp_dump"
 fi
 unset _comp_dump
-
-autoload -Uz colors && colors
 
 bindkey -v
 bindkey '^R' history-incremental-search-backward
@@ -97,7 +95,6 @@ zstyle ':vcs_info:git*+set-message:*' hooks git-st
 
 export VIRTUAL_ENV_DISABLE_PROMPT=yes
 add-zsh-hook precmd vcs_info
-typeset -a precmd_functions
 virtualenv_info() { venv_info_0=${VIRTUAL_ENV:+"(${VIRTUAL_ENV:t}) "}; }
 precmd_functions+=(virtualenv_info)
 auto_activate_venv() {
