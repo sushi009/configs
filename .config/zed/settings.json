@@ -99,7 +99,7 @@
           "configuration": {
             "lint": {
               "unfixable": ["F401"],
-              "ignore": ["E501"],
+              "ignore": ["E501", "E402", "E722"],
             },
           },
         },
