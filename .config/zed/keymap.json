@@ -14,6 +14,12 @@
     },
   },
   {
+    "context": "Editor && vim_mode == visual",
+    "bindings": {
+      "s": ["vim::PushAddSurrounds", {}],
+    },
+  },
+  {
     "context": "Editor",
     "bindings": {
       "ctrl-j": ["editor::GoToDiagnostic", { "severity": { "min": "warning", "max": "error" } }],
