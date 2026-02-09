@@ -16,7 +16,7 @@
     "show_diagnostics": "all",
   },
   "buffer_font_size": 13.5,
-  "buffer_font_family": "CommitMono",
+  "buffer_font_family": "Maple Mono NF",
   "agent_buffer_font_size": 13.5,
   "show_signature_help_after_edits": true, // "ctrl-s" for manual
   "terminal": {
