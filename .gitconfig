@@ -32,9 +32,3 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
-[difftool]
-    prompt = false
-[pager]
-    difftool = true
-[diff]
-    external = difft

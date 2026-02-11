@@ -66,7 +66,7 @@ export PATH="$HOME/.cargo/bin:$HOME/.pyenv/shims:$HOME/.local/bin:/opt/homebrew/
 type brew &>/dev/null || /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 brew upgrade --greedy
 for formula in tree pyenv htop pkg-config cmake curl wget just cmake protobuf llvm git-lfs tmux \
-               difftastic awscli ffmpeg-full uv oven-sh/bun/bun hyperfine font-maple-mono-nf \
+               awscli ffmpeg-full uv oven-sh/bun/bun hyperfine font-maple-mono-nf \
                zed@preview firefox@developer-edition alt-tab rectangle ghostty@tip; do
     brew install $formula
 done
