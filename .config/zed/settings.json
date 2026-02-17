@@ -139,13 +139,15 @@
   },
   "show_edit_predictions": false,
   "agent": {
+    "tool_permissions": {
+      "default": "allow",
+    },
     "show_turn_stats": true,
     "default_profile": "write",
     "inline_assistant_model": {
       "provider": "anthropic",
       "model": "claude-opus-4-5-thinking-latest",
     },
-    "always_allow_tool_actions": true,
     "default_model": {
       "provider": "anthropic",
       "model": "claude-opus-4-5-thinking-latest",

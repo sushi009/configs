@@ -11,7 +11,7 @@ export LS_COLORS='di=1;34:ln=1;36:so=1;31:pi=1;33:ex=1;32:bd=33:cd=33:su=37:sg=3
 if [ -n "$HOMEBREW_PREFIX" ]; then
     export PATH="$HOMEBREW_PREFIX/opt/postgresql@18/bin:$HOMEBREW_PREFIX/opt/curl/bin:$HOMEBREW_PREFIX/bin:$PATH"
 fi
-export PATH="$HOME/bin:$HOME/.local/bin:$HOME/.cargo/bin:$HOME/.pyenv/shims:$PATH"
+export PATH="$HOME/bin:$HOME/.local/bin:$HOME/.cargo/bin:$HOME/.pyenv/shims:/usr/local/go/bin:$HOME/go/bin:$PATH"
 export WORDCHARS='*?_-.~=&;!#$%^(){}<>'
 export LESSHISTFILE=/dev/null
 export EDITOR=vim
