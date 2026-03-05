@@ -5,6 +5,7 @@
   },
   "project_panel": {
     "dock": "right",
+    "diagnostic_badges": true,
   },
   "outline_panel": {
     "dock": "right",
