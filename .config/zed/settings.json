@@ -147,11 +147,12 @@
     "default_profile": "write",
     "inline_assistant_model": {
       "provider": "anthropic",
-      "model": "claude-opus-4-5-thinking-latest",
+      "model": "claude-opus-4-6-thinking-latest",
     },
     "default_model": {
+      "enable_thinking": true,
       "provider": "anthropic",
-      "model": "claude-opus-4-5-thinking-latest",
+      "model": "claude-opus-4-6-thinking-latest",
     },
   },
   "auto_install_extensions": {

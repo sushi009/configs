@@ -149,5 +149,6 @@ alias -- -='cd -'
 alias d='cd $(git rev-parse --show-toplevel)'
 alias upall='brew upgrade --greedy;brew cleanup --prune-prefix;brew cleanup --prune=0 -s;rustup update;cargo install-update --locked --all'
 alias tmux='SHELL=$(command -v ${0#-}) tmux' # launch tmux with the current shell
+alias cargo="cargo -Zbuild-dir-new-layout" # 
 
 PROMPT='%F{magenta}${venv_info_0}%f%(!.%F{magenta}%n%f.%F{green}%n%f)%F{8}@%f%F{green}%m%f%F{8}:%f%F{blue}%~%f%F{yellow}${vcs_info_msg_0_}%f %(?.%F{white}-%f.%F{red}%? %f)%F{cyan}❯ %f'
