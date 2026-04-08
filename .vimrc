@@ -1,5 +1,5 @@
-set shiftwidth=2
-set softtabstop=2
+set shiftwidth=4
+set softtabstop=4
 set tabstop=4
 set expandtab
 set autoindent
@@ -25,7 +25,7 @@ hi Comment ctermfg=8
 hi StatusLine ctermfg=235 ctermbg=15
 hi StatusLineNC ctermfg=235 ctermbg=8
 
-" ===== Clipboard Configuration =====
+" Clipboard Configuration
 if !empty($SSH_TTY)
     " Remote: Use OSC52 for clipboard
     function! Osc52Yank()

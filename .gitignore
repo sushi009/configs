@@ -1,11 +1,10 @@
 *.swp
 .DS_Store
-
-zed/.tmp*
 *.mdb
-zed/conversations/*
-zed/settings_backup.json
-/target/**
+
+**/zed/.tmp*
+**/zed/conversations/*
+**/zed/settings_backup.json
 
 **/target/**
 **/*.rs.bk
