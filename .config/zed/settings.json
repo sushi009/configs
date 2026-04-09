@@ -22,16 +22,9 @@
     "file_icons": true,
     "show_diagnostics": "all",
   },
-  "buffer_font_size": 14.5,
-  "buffer_font_family": "Iosevka",
-  "buffer_font_features": {
-    "calt": 1,
-    "dlig": 1,
-    "cv42": 1,
-    "VSAC": 1,
-    "cv52": 13,
-  },
-  "agent_buffer_font_size": 14.5,
+  "buffer_font_size": 13.5,
+  "buffer_font_family": "JetBrains Mono",
+  "agent_buffer_font_size": 13.5,
   "show_signature_help_after_edits": true, // "ctrl-s" for manual
   "terminal": {
     "line_height": { "custom": 1.5 },
@@ -42,7 +35,7 @@
   "theme": {
     "mode": "system",
     "light": "One Light",
-    "dark": "Catppuccin Macchiato",
+    "dark": "Catppuccin Macchiato - No Italics",
   },
   "icon_theme": "Catppuccin Macchiato",
   "indent_guides": {
