@@ -1,8 +1,9 @@
 theme = Catppuccin Macchiato
 shell-integration = zsh
-font-family = JetBrains Mono
-font-size = 13.5
-adjust-cell-height = 5
+font-family = Iosevka Extended
+font-feature = calt, dlig, cv42, cv52=13, VSAC, VSAH=3
+font-size = 14
+adjust-cell-height = 6
 # term = xterm-256color
 shell-integration-features = no-cursor,sudo,title,ssh-env
 confirm-close-surface = always

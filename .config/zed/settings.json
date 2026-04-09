@@ -22,9 +22,18 @@
     "file_icons": true,
     "show_diagnostics": "all",
   },
-  "buffer_font_size": 13.5,
-  "buffer_font_family": "JetBrains Mono",
-  "agent_buffer_font_size": 13.5,
+  "buffer_font_size": 14.0,
+  "buffer_line_height": { "custom": 1.6 },
+  "buffer_font_family": "Iosevka Extended",
+  "buffer_font_features": {
+    "calt": 1,
+    "dlig": 1,
+    "cv42": 1,
+    "cv52": 13,
+    "VSAC": 1,
+    "VSAH": 3,
+  },
+  "agent_buffer_font_size": 14.0,
   "show_signature_help_after_edits": true, // "ctrl-s" for manual
   "terminal": {
     "line_height": { "custom": 1.5 },
