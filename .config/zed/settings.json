@@ -52,7 +52,7 @@
     "coloring": "indent_aware",
   },
   "title_bar": {
-    "show_branch_icon": true,
+    "show_branch_status_icon": true,
   },
   "use_smartcase_search": true,
   "soft_wrap": "editor_width",
